@@ -50,6 +50,7 @@ class People
     {
        private:
         int land = 1000;
+        int farm_up;
 
         public: 
          
@@ -57,6 +58,8 @@ class People
         {
             cout<< "The city own now " <<land<<endl;
         }
+
+        
     };
 
 
