@@ -95,22 +95,30 @@ class People
             {
 
                 died=(people-(b.feedoutput()/20));
+
                 break;
             }
-            cout<<"Hamurabi: think again. you have only"<<endl <<busles<<" busles of grain"<<endl; // 300bushels kendi yazar
-
+            cout<<"Hamurabi: think again. you have only"<<endl <<busles<<" busles of grain"<<endl;
+ 
         }
         
     }
 
+    int peopledied()
+    {
+        return died;
+    }
+
+   
+
     int  inputpeopleleft()
     {
-           return peopleleft=(people-died);
+           return people=(people-died);
             
     }
     void outputpeopleleft()
     {
-        cout<<peopleleft<<endl;
+        cout<<people<<endl;
     }
 
     int immigrant() // I will check
@@ -156,8 +164,9 @@ class People
         int limitfarm_up()
         {
             People p;
-            
-            return farm_up =p.inputpeopleleft() *10; // I will check
+
+            cout<<people<<endl;
+            return farm_up = people *10; // I will check
         }
         
         int intputland()
@@ -209,11 +218,13 @@ class People
              b.getharvest();
              if(land>=b.harvestoutput())
              {
+                cout<<"working"<<endl;
                   if(l.limitfarm_up()>= b.harvestoutput())
                 { 
-                 
+                    cout<<"working"<<endl;
                      if(b.harvestoutput()>=2)
                   {     
+                    cout<<"working"<<endl;
                     cout<<busles<<endl;
                       
                      int buslesresult = b.harvestoutput() + b.buslesbettwehn();
@@ -248,8 +259,19 @@ public:
        b.printbushels();
        l.intputland();
        p.starved();
+       p.inputpeopleleft();
+       p.outputpeopleleft();
+       l.limitfarm_up();
+
        l.harvests();
 
+       if(p.peopledied()>=45)
+       {
+         cout<< "You starved "<<p.peopledied()<<" people in one year!!!"<<endl;// you need to put a year in here
+         cout<<"Due to this exterme mismanagement you have not only"<<endl;
+         cout<<"Been impeached and thrown out of office but you have"<<endl;
+         cout<<"Also been declared national fink!!!!"<<endl;
+       }
         
     }
     };
