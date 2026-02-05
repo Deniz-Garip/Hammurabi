@@ -24,25 +24,23 @@ using namespace std;
             cout<< "You now have "<<busles<<" bushesl in store"<<endl;
         }
 
-        void getbushels()
+        void getfeed()
         {   
             
             cin>>feed;
-            
-            
+        
         }
         void getharvest()
         {
             cin>>harvest;
         }
-        int buslesoutput()
+        int feedoutput()
         {
             return feed;
-           
             
         }
 
-        int buslesharvest()
+        int harvestoutput()
         {
              return harvest;
         }
@@ -63,11 +61,6 @@ using namespace std;
         {
             cout <<"You harvested "<<buslesbettwehn()<<" bushels per ace"<<endl;
         }
-        
-        void printland()
-        {
-
-        }
 
     };
  
@@ -83,7 +76,7 @@ class People
 
     public:
 
-    void getpeople()
+    void printpeople()
     {
         cout<<"Population is now " <<people<<endl;
     }
@@ -97,14 +90,14 @@ class People
         {
             cout <<"How many busles do you wish to feed your people?"<<endl;
 
-            b.getbushels(); //threse problem in here cin>>feed
-            if(busles>=b.buslesoutput())
+            b.getfeed(); 
+            if(busles>=b.feedoutput())
             {
 
-                died=(people-(b.buslesoutput()/20));
+                died=(people-(b.feedoutput()/20));
                 break;
             }
-            cout<<"Hamurabi: think again. you have only"<<endl<<"3000 buslesof grain"<<endl;
+            cout<<"Hamurabi: think again. you have only"<<endl <<busles<<" busles of grain"<<endl; // 300bushels kendi yazar
 
         }
         
@@ -120,7 +113,7 @@ class People
         cout<<peopleleft<<endl;
     }
 
-    int immigrant()
+    int immigrant() // I will check
     {
         People p;
 
@@ -140,7 +133,7 @@ class People
        private:
         int land = 1000;
         int farm_up;
-        string yes;
+        string input;
 
         public: 
          
@@ -150,21 +143,21 @@ class People
             
         }
 
-        void getdata()
+        void getdata()  // i will check this
         {
-            cin>>yes;
+            cin>>input;
         }
 
-        string landdata()
+        string landdata() // i will check this
         {
-            return yes;
+            return input;
         }
 
         int limitfarm_up()
         {
             People p;
             
-            return farm_up =p.inputpeopleleft() *10;
+            return farm_up =p.inputpeopleleft() *10; // I will check
         }
         
         int intputland()
@@ -175,17 +168,29 @@ class People
             while (true)
             {
                 cout<<"Land is trading at "<<b.landprice() <<" bushels per ace"<<endl;
-                cout<<"How many acres do you wish to buy? Yes or No"<<endl; 
-                if(yes == "yes" || yes == "Yes") // you need the change or because it is wrong i thinks so it is correct
-                {
-                    if(b.buslesoutput()>=b.landprice())
+                cout<<"How many acres do you wish to buy? Yes or No"<<endl;
+                    cin>>input; 
+                    
+                if(input == "yes" || input == "Yes") // you need the change or because it is wrong i thinks so it is correct
+                {   
+                    b.getfeed();
+
+                    
+                    
+                    if(b.feedoutput()>=b.landprice())
                     {
-                         int result= b.buslesoutput()/b.landprice();
-                         return busles = busles - b.buslesoutput();
+                         int result= b.feedoutput()/b.landprice();
+                         return busles = busles - b.feedoutput();
                          return land = land + b.landprice();
                          break;
 
                     }
+
+                }
+
+                else if (input == "no" || input == "No")
+                {
+                    break;
                 }
                 
             }
@@ -196,22 +201,22 @@ class People
         {
             Land l;
             bushels b;
-            l.limitfarm_up();
+            
             while (true)
         {
             cout<<"How many acres do you wish to plant with seed"<<endl;
             cout<<"An acre of land requires two bushels to plant seed"<<endl;
-             //cin>>b.getharvest(); 
-             if(land>=b.buslesharvest())
+             b.getharvest();
+             if(land>=b.harvestoutput())
              {
-                  if(l.limitfarm_up()>= b.buslesharvest())
+                  if(l.limitfarm_up()>= b.harvestoutput())
                 { 
                  
-                     if(b.buslesharvest()>=2)
+                     if(b.harvestoutput()>=2)
                   {     
                     cout<<busles<<endl;
                       
-                     int buslesresult = b.buslesharvest() + b.buslesbettwehn();
+                     int buslesresult = b.harvestoutput() + b.buslesbettwehn();
                      cout<<buslesresult<<endl;
                       return  busles = busles + buslesresult;
                         cout<<busles<<endl;                  
@@ -237,12 +242,15 @@ private:
 public:
     void play()
     {
-       p.getpeople();
+       p.printpeople();
        l.getland();
        b.printbuslesbettwen();
        b.printbushels();
        l.intputland();
-      
+       p.starved();
+       l.harvests();
+
+        
     }
     };
 
@@ -261,6 +269,8 @@ public:
             {
                 while (running)
                 {
+                    cout << "1. Start the game" << endl;
+                    
                     int choice;
                     cin >> choice;
                     
