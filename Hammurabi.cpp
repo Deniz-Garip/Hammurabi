@@ -5,61 +5,73 @@
 using namespace std;
 
  int people =100;
- int busles = 3000;
+ int bushels = 3000;
  int land =1000;
+ int year=0;
+  int between = 0;
+  int owner =0;
 
-  class bushels
+
+  class Bushels
     {
          private:
         
         int feed;
         int harvest;
         int price;
-        int landbusles;
-        int bettwen_busles;   
+        
+        int bettwen_busles;  
+        
         public: 
         
-        void printbushels()
+        void printbushels() // print bushels BEGIN THE game
         {
-            cout<< "You now have "<<busles<<" bushesl in store"<<endl;
+            cout<< "You now have "<<bushels<<" bushesl in store"<<endl;
         }
 
-        void getfeed()
+        void getfeed() // you feed  poeple 
         {   
             
             cin>>feed;
         
         }
-        void getharvest()
+        void getharvest() // 
         {
             cin>>harvest;
         }
-        int feedoutput()
+        int feedoutput() // return the feed
         {
             return feed;
             
         }
 
-        int harvestoutput()
+        int harvestoutput() // return the harvest
         {
              return harvest;
         }
         
     
-        int landprice()
+        int landprice() // randomsy land price every year
         {
-           return price = rand() % 26 + 17; // it was not work sometimes they gave 34 like that 
+            price = rand() % 10 + 17; 
+            return owner = price;
         }
 
         
 
         int buslesbettwehn()
         {
-            return bettwen_busles = rand() % 6 + 2;
+            
+             bettwen_busles = rand() % 5 + 2;
+            return between = bettwen_busles;
+            
         }
+        
         void printbuslesbettwen()
         {
-            cout <<"You harvested "<<buslesbettwehn()<<" bushels per ace"<<endl;
+          
+
+            cout <<"You harvested "<<between<<" bushels per ace"<<endl;
         }
 
     };
@@ -70,8 +82,10 @@ class People
     private:
      
     int peopleleft =0;
-    int died;
+    int died =0;
     int immigrants;
+    int result_immigrant ;
+    int imigrantpeople;
     
 
     public:
@@ -83,7 +97,7 @@ class People
 
     int starved()
     {   
-        bushels b;
+        Bushels b;
        
 
         while (true)
@@ -91,14 +105,16 @@ class People
             cout <<"How many busles do you wish to feed your people?"<<endl;
 
             b.getfeed(); 
-            if(busles>=b.feedoutput())
+            if(bushels>=b.feedoutput())
             {
 
                 died=(people-(b.feedoutput()/20));
+                return bushels = bushels -b.feedoutput();
+                
 
                 break;
             }
-            cout<<"Hamurabi: think again. you have only"<<endl <<busles<<" busles of grain"<<endl;
+            cout<<"Hamurabi: think again. you have only"<<endl <<bushels<<" busles of grain"<<endl;
  
         }
         
@@ -111,28 +127,51 @@ class People
 
    
 
-    int  inputpeopleleft()
+    int  outputpeopleleft()
     {
            return people=(people-died);
             
     }
-    void outputpeopleleft()
-    {
-        cout<<people<<endl;
-    }
 
-    int immigrant() // I will check
-    {
-        People p;
-
-        if(3020>=busles)
+    void printstarved()
+    {   
+        if(0<died)
         {
-            int d = busles -3000;
-            int f = d /20;
-
-            return people = f + people;
+            cout<<died<<endl;
+        }
+        
+        else
+        {
+            cout<<"0 People starved,";
         }
     }
+    
+
+    void immigrant() 
+    {
+       if(bushels>=2900)
+       {
+         result_immigrant = (bushels -2900) /20;
+         cout<< " "<<result_immigrant<<" came to the city"<<endl;
+       }
+       else
+       {
+         cout<<"0 "<<"came to the city"<<endl;
+       }
+        
+    }
+
+    int returnimigrant() 
+    {
+        return imigrantpeople = result_immigrant + people;
+        
+    }
+
+    int addpeople()
+    {
+        return people = imigrantpeople;
+    }
+    
 
    
 };
@@ -140,57 +179,60 @@ class People
     {
        private:
         int land = 1000;
-        int farm_up;
+        int plant;
         string input;
+        int buslesresult;
+        int buslesleft;
+        int result;
 
         public: 
          
-        void getland()
+        void printland()
         {
             cout<< "The city own now " <<land<<endl;
             
         }
 
-        void getdata()  // i will check this
+        void getdata()   
         {
             cin>>input;
         }
 
-        string landdata() // i will check this
+        string landdata()   
         {
             return input;
         }
 
-        int limitfarm_up()
+        int limitfarm_up() // I will change him name 
         {
             People p;
-
-            cout<<people<<endl;
-            return farm_up = people *10; // I will check
+            return plant = people *10; 
         }
         
         int intputland()
         {
-            bushels b;
+            Bushels b;
 
             
             while (true)
             {
-                cout<<"Land is trading at "<<b.landprice() <<" bushels per ace"<<endl;
-                cout<<"How many acres do you wish to buy? Yes or No"<<endl;
-                    cin>>input; 
+                cout<<"Land is trading at "<<owner <<" bushels per ace"<<endl;
+                 cout<<"Do you wish to buy acres ? Yes / No "<<endl;
+                    getdata();
                     
-                if(input == "yes" || input == "Yes") // you need the change or because it is wrong i thinks so it is correct
+                if(input == "yes" || input == "Yes") 
                 {   
+                    cout<<"How many acres do you wish to buy? "<<endl;
+                    
                     b.getfeed();
 
                     
                     
-                    if(b.feedoutput()>=b.landprice())
+                    if(b.feedoutput()>= owner)
                     {
-                         int result= b.feedoutput()/b.landprice();
-                         return busles = busles - b.feedoutput();
-                         return land = land + b.landprice();
+                          result= b.feedoutput() / owner;
+                         return bushels = bushels - b.feedoutput();
+                        
                          break;
 
                     }
@@ -206,33 +248,40 @@ class People
             
         }
 
-         int harvests() //there is a problem in here you need the change
+        int landreturn()
+        {
+            
+          return land = land + result;
+             
+        }
+
+         int harvests() 
         {
             Land l;
-            bushels b;
+            Bushels b;
             
             while (true)
         {
             cout<<"How many acres do you wish to plant with seed"<<endl;
             cout<<"An acre of land requires two bushels to plant seed"<<endl;
+            
+            
              b.getharvest();
              if(land>=b.harvestoutput())
              {
-                cout<<"working"<<endl;
+               
                   if(l.limitfarm_up()>= b.harvestoutput())
                 { 
-                    cout<<"working"<<endl;
+                   
                      if(b.harvestoutput()>=2)
                   {     
-                    cout<<"working"<<endl;
-                    cout<<busles<<endl;
                       
-                     int buslesresult = b.harvestoutput() + b.buslesbettwehn();
-                     cout<<buslesresult<<endl;
-                      return  busles = busles + buslesresult;
-                        cout<<busles<<endl;                  
+                         bushels = b.harvestoutput() - bushels;
+                      buslesleft = b.harvestoutput()* between;
+                     
+                        
                      break; 
-                  } 
+                  }
                }
              } 
             
@@ -240,58 +289,129 @@ class People
         }
         }
 
+        int returnharvests()
+        {
+            
+            return bushels = buslesleft + bushels;
+        }
+       
+       
     
     };
 
-    class Start
+     class Year
     {
-private:
-        People p;
-        Land l;
-        bushels b;
+    
+        public:
 
-public:
-    void play()
-    {
-       p.printpeople();
-       l.getland();
-       b.printbuslesbettwen();
-       b.printbushels();
-       l.intputland();
-       p.starved();
-       p.inputpeopleleft();
-       p.outputpeopleleft();
-       l.limitfarm_up();
-
-       l.harvests();
-
-       if(p.peopledied()>=45)
-       {
-         cout<< "You starved "<<p.peopledied()<<" people in one year!!!"<<endl;// you need to put a year in here
-         cout<<"Due to this exterme mismanagement you have not only"<<endl;
-         cout<<"Been impeached and thrown out of office but you have"<<endl;
-         cout<<"Also been declared national fink!!!!"<<endl;
-       }
+        int yearcalculator()
+        {
+            if(year<=9)
+         {
+              return  year++;
+                
+         }
+        }
         
-    }
+        void printyear()
+        {
+            cout<<"In Year "<<year<<" ,";
+        }
+
+        
     };
 
-
-   
-
+    
     class Menu
     {
          private:
             bool running = true;
             People p;
-            bushels b;
-            Start s;
+            Bushels b;
+            Land l;
+            Year y;
+        void play() 
+    {
+            while(true)
+        {
+            y.yearcalculator();
+            y.printyear();
+            p.printstarved();
+             p.immigrant();
+            b.buslesbettwehn();
+             b.landprice();
+             p.printpeople();
+             l.printland();
+            b.printbuslesbettwen();
+            b.printbushels();
+            l.intputland();
+            p.starved();
+            p.outputpeopleleft();
+            l.limitfarm_up();
+            l.harvests();
+            l.returnharvests();
+            p.returnimigrant(); 
+            p.addpeople();
+            l.landreturn();
+        
+
+            if(p.peopledied()>=45)
+           {
+                cout<< "You starved "<<p.peopledied()<<" people in "<< year<< " year!!!"<<endl;
+                cout<<"Due to this exterme mismanagement you have not only"<<endl;
+                cout<<"Been impeached and thrown out of office but you have"<<endl;
+                cout<<"Also been declared national fink!!!!"<<endl;
+                 break;
+           }
+
+          else if (year ==10)
+          {
+            cout<<"Congratulations you win the game"<<endl;
+            break;
+          }
+        
+      }  
+    }
+
+     
+
+void saveToFile()
+{
+    ofstream outPutFile("Hammurabi.txt");
+
+    outPutFile << year   << endl;
+    outPutFile.close();
+   
+}
+
+
+
+
+
+
+        
+void loadFromFile()
+{
+    
+    ifstream inputFile("Hammurabi.txt");
+
+    inputFile >> year;
+    inputFile.close();
+
+    
+}
+
+
+        
         public: 
             void start()
             {
                 while (running)
                 {
                     cout << "1. Start the game" << endl;
+
+			        cout << "2. Load from file" << endl;
+			        cout << "3. Save a Quit" << endl;
                     
                     int choice;
                     cin >> choice;
@@ -299,7 +419,15 @@ public:
                     switch (choice)
                     {
                     case 1:
-                        s.play();
+                        play();
+                        break;
+                         
+                    case 2:
+                        loadFromFile();
+                        break;
+                        
+                    case 3:
+                        saveToFile();
                         break;
                     
                     default:
@@ -308,6 +436,8 @@ public:
                 }
                 
             }
+
+            
 
         
     };
