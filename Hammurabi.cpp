@@ -2,7 +2,7 @@
 #include <fstream>
 #include <ctime>
 #include <string>
-using namespace std;
+using namespace std;    
 
  int people =100;
  int bushels = 3000;
@@ -178,10 +178,8 @@ class People
     class Land
     {
        private:
-        int land = 1000;
         int plant;
         string input;
-        int buslesresult;
         int buslesleft;
         int result;
 
@@ -301,7 +299,8 @@ class People
 
      class Year
     {
-    
+        private:
+        int year;
         public:
 
         int yearcalculator()
@@ -380,6 +379,7 @@ void saveToFile()
     ofstream outPutFile("Hammurabi.txt");
 
     outPutFile << year   << endl;
+    running = false;
     outPutFile.close();
    
 }
