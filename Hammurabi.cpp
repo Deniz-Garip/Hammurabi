@@ -133,9 +133,11 @@ public:
 
     void immigrant()  // calculate the immigrant
     {
-        if (bushels >= 2900)
+        if (bushels >= 3000)
         {
-            result_immigrant = (bushels - 2900) / 20;
+             
+            result_immigrant = (bushels - 3000) / 20;
+                
             cout << " " << result_immigrant << " came to the city" << endl;
         }
         else
@@ -144,11 +146,19 @@ public:
         }
 
     }
-
+    
+    int immigrant_calculate()
+    {   if(bushels >= 3000)
+        {
+            return bushels = bushels - (result_immigrant * 20);
+        }
+       
+    }
 
     int addPeople() // add the immigrant to people
     {
         return people = people  + result_immigrant;
+        
     }
 };
 
@@ -245,13 +255,13 @@ public:
 
                     if (b.harvestOutput() >= 2)
                     {
-                      cout<<between<<endl;
+                      
 
                         
                         bushels_left = b.harvestOutput() * between;
                         int a = bushels - b.harvestOutput()  ;
                           return bushels = bushels_left + a;
-                        cout << bushels << endl;
+                       
                       
                         break;
 
@@ -317,7 +327,6 @@ private:
             p.outputPeopleLeft();
             l.limitFarmUp();
             l.Harvests();
-            p.addPeople();
             l.landReturn();
 
             if (people <= 45) // print the game loset
@@ -334,39 +343,51 @@ private:
                 cout << "Congratulations you won the game!" << endl;
                 break;
             }
-        }
-    }
 
+              p.immigrant_calculate();
+            p.addPeople();
+        }
+      
+    }
 
     void change_the_people() // you can change the people
     {
+        cout<<"How many people would you like to add?"<<endl;
         cin >> people;
     }
 
     void change_the_land() // you can change the land
     {
+        cout<<"How many land would you like to add?"<<endl;
         cin >> land;
     }
 
     void change_the_bushels() // you can change the bushels
     {
+       cout<<"How many bushels would you like to add?"<<endl;
         cin >> bushels;
     }
-
     void loadFromFile() // loding the file
     {
-        ifstream inputFile("Hammurabi.txt");
+       ifstream inputFile("Hammurabi.txt");
         inputFile >> year;
-        inputFile.close();
+        inputFile >> people;
+        inputFile >> land;
+        inputFile >> bushels;
+        inputFile.close();    
     }
 
     void saveToFile() // saving the file
     {
         ofstream outPutFile("Hammurabi.txt");
         outPutFile << year << endl;
+        outPutFile << people << endl;
+        outPutFile << land << endl;
+        outPutFile << bushels << endl;
         running = false;
         outPutFile.close();
-    }
+    }    
+        
 
 public:
 
