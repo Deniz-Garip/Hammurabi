@@ -49,6 +49,10 @@ class Total_price : public Customer_contact
         cout<<"Total price: "<<total_price<<endl;
     }
 
+   /* float resturant_total_incomer(float total_income, float total)
+     {
+        return total_income + total;
+     }*/
 };
 
 
@@ -67,6 +71,8 @@ class Menu_Item
     }
 
     virtual void printmenu() =0;
+
+    
 };
 
 class Menu_sales :public  Menu_Item 
@@ -81,12 +87,6 @@ class Menu_sales :public  Menu_Item
 
     public:
 
-    int cinprint()
-    {
-        cin>>Popularity_rating;
-        return Popularity_rating;
-    }
-    
 
      Menu_sales(string c, string In, string dk,string av, float Ip, int Pr, int m_n) :Menu_Item(c,In,dk)
      {
@@ -101,6 +101,23 @@ class Menu_sales :public  Menu_Item
      {
         return Item_price * quantity;
      }
+
+     int Most_popular_cuisine(int cyprus, int greece) 
+    {
+        if(Menu_Number>= 5)
+        {
+           return cyprus++;
+            cout<<"working"<<endl;
+        }
+
+        else if(Menu_Number <=4)
+        {
+           return greece++;
+            cout<<"working"<<endl;
+        }
+    } 
+
+       
 
         void printmenu()    
         {
@@ -234,6 +251,8 @@ class Menu
     int quantity;
     float total_income =0;
     float total =0;
+    int cyprus;
+    int greece;
     Menu_sales* m1;
     Menu_sales* m2;
     Menu_sales* m3;
@@ -244,14 +263,19 @@ class Menu
     Menu_sales* m8;
 
 
-      void printcustomer()
-   {
-       
-        getaddres();
-        int choiice;
-         cout<<"Which menu do you want to buy"<<endl;
-        cin>>choiice;
-        switch (choiice)
+    void getaddres()
+    {
+         cout<<"What is your name"<<endl;
+        cin >>name;
+        cout<<"Location"<<endl;
+        cin>>location;
+        cout<<"Phone number"<<endl;
+        cin>> phone;
+        //take away or personal
+        cout<<"Which menu do you take"<<endl;
+        cin>> Menu;
+
+        switch (Menu)
         {
         case 1: 
            cout << "How many Gyros do you want: ";
@@ -307,17 +331,6 @@ class Menu
                cout<<total<<endl;
             break;              
         }
-   }
-    void getaddres()
-    {
-         cout<<"What is your name"<<endl;
-        cin >>name;
-        cout<<"Location"<<endl;
-        cin>>location;
-        cout<<"Phone number"<<endl;
-        cin>> phone;
-        cout<<"Which menu do you take"<<endl;
-        cin>> Menu;
 
         Total_price* t1 = new Total_price(name,location,phone,Menu,"take away",total);
         
@@ -325,7 +338,23 @@ class Menu
         r.example();
     }
     
-   
+    void Total_incomer()
+    {
+        cout<<"Total income for the day"<<endl;
+        cout<<total<<endl;
+    }
+
+    void most_popular_cuisine()
+    {
+        if(cyprus>greece)
+        {
+            cout<<"Most popular Cuisine is Cyprus "<<endl;
+        }
+        else
+        {
+            cout<<"Most popular Cuisine is Greece "<<endl;
+        }
+    }
 
    void printstaf()
    {
@@ -374,12 +403,7 @@ class Menu
    }
  
 
-    int Total_income()
-    {
-        cout<<"working"<<endl;
-       return total_income = total;
-       cout<<total_income<<endl;
-    }
+    
 
 
    public:
@@ -392,6 +416,7 @@ class Menu
             cout<<"2: Menu"<<endl;
             cout<<"3:Which menu do you want buy"<<endl;
             cout<<"4: Total incomer"<<endl;
+            cout<<"5: Most popular"<<endl;
             cin >> choice;
             switch (choice)
             {
@@ -402,11 +427,14 @@ class Menu
                 printmenu();
                 break;
             case 3:
-                printcustomer();
+                getaddres();
                 break;
             case 4:
-                Total_income();
-                break;    
+                Total_incomer();
+                break;
+            case 5:
+            most_popular_cuisine();
+              break;
             }  
         }
         
