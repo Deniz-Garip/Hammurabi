@@ -49,10 +49,7 @@ class Total_price : public Customer_contact
         cout<<"Total price: "<<total_price<<endl;
     }
 
-   /* float resturant_total_incomer(float total_income, float total)
-     {
-        return total_income + total;
-     }*/
+  
 };
 
 
@@ -102,20 +99,35 @@ class Menu_sales :public  Menu_Item
         return Item_price * quantity;
      }
 
-     int Most_popular_cuisine(int cyprus, int greece) 
+     int Most_popular_cuisine(int* cyprus, int* greece, int* Menu ) 
     {
-        if(Menu_Number>= 5)
+        
+        cout<<*Menu<<endl;
+        if(*Menu>= 5)
         {
-           return cyprus++;
-            cout<<"working"<<endl;
+            (*cyprus)++;
+            
         }
 
-        else if(Menu_Number <=4)
+        else if(*Menu <=4)
         {
-           return greece++;
-            cout<<"working"<<endl;
+            (*greece)++;
+           
         }
     } 
+
+    int Most_popular_menu(int * Menu)
+    {
+        switch (*Menu)
+        {
+        case 1:
+            cout<<"Gyros"<<endl;
+            break;
+        
+        default:
+            break;
+        }
+    }
 
        
 
@@ -246,13 +258,15 @@ class Menu
     string customer_name;
     string name;
     string location;
+    
     int phone;
-    int Menu;
+    int Menu =0;
     int quantity;
     float total_income =0;
     float total =0;
-    int cyprus;
-    int greece;
+    int cyprus =0;
+    int greece =0;
+    int most_menu =0;
     Menu_sales* m1;
     Menu_sales* m2;
     Menu_sales* m3;
@@ -281,6 +295,9 @@ class Menu
            cout << "How many Gyros do you want: ";
              cin >> quantity;
              total = m1->pricecalculater(quantity);
+                
+             m1->Most_popular_cuisine(&cyprus, &greece, &Menu);
+             m1->Most_popular_menu(& Menu);
                cout << "Total price: " << total << endl;
             break;
         case 2:
@@ -288,18 +305,24 @@ class Menu
              cout << "How many Lamp souvlaki do you want: ";
              cin >> quantity;
              total = m2->pricecalculater(quantity);
+                   m2->Most_popular_cuisine(&cyprus, &greece, &Menu);
+
              cout<<total<<endl;
             break;
         case 3:
         cout << "How many Dolmadakia do you want: ";
              cin >> quantity;
              total = m3->pricecalculater(quantity);
+                   m3->Most_popular_cuisine(&cyprus, &greece, &Menu);
+
              break;
         
         case 4:
          cout << "How many Grilled octopus do you want: ";
              cin >> quantity;
              total = m4->pricecalculater(quantity);
+                  m4->Most_popular_cuisine(&cyprus, &greece, &Menu);
+
               cout<<total<<endl;
             break;
 
@@ -307,6 +330,8 @@ class Menu
          cout << "How many Makaronia tou Fournou do you want: ";
              cin >> quantity;
              total = m5->pricecalculater(quantity);
+                   m5->Most_popular_cuisine(&cyprus, &greece, &Menu);
+
               cout<<total<<endl;
             break; 
 
@@ -314,6 +339,8 @@ class Menu
          cout << "How many Sheftalies do you want: ";
              cin >> quantity;
              total = m6->pricecalculater(quantity);
+                   m6->Most_popular_cuisine(&cyprus, &greece, &Menu);
+
               cout<<total<<endl;
             break;   
 
@@ -321,6 +348,8 @@ class Menu
          cout << "How many Koubes do you want: ";
              cin >> quantity;
              total = m7->pricecalculater(quantity);
+                   m7->Most_popular_cuisine(&cyprus, &greece, &Menu);
+
               cout<<total<<endl;
             break; 
 
@@ -328,6 +357,8 @@ class Menu
          cout << "How many Ofto Kleftiko do you want: ";
              cin >> quantity;
               total = m8->pricecalculater(quantity);
+                m8->Most_popular_cuisine(&cyprus, &greece, &Menu);
+
                cout<<total<<endl;
             break;              
         }
@@ -350,10 +381,15 @@ class Menu
         {
             cout<<"Most popular Cuisine is Cyprus "<<endl;
         }
-        else
+        else 
         {
             cout<<"Most popular Cuisine is Greece "<<endl;
         }
+    }
+
+    void most_popular_item()
+    {
+
     }
 
    void printstaf()
