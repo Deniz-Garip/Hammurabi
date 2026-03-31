@@ -116,14 +116,44 @@ class Menu_sales :public  Menu_Item
         }
     } 
 
-    int Most_popular_menu(int * Menu)
+    int  Most_popular_item(int* Menu, int * rating )
     {
         switch (*Menu)
         {
         case 1:
             cout<<"Gyros"<<endl;
+            (*rating)++;
             break;
+        case 2:
+            cout<<"Lamp souvlaki"<<endl;
+            (*rating)++;
+            break; 
+        case 3:
+            cout<<"Dolmadakia"<<endl;
+            (*rating)++;
+            break;                           
+        case 4:
+            cout<<"Grilled octopus"<<endl;
+            (*rating)++;
+            break;
+        case 5:
+            cout<<"Makaronia tou Fournou"<<endl;
+            (*rating)++;
+            break;
+        case 6:
+            cout<<"Sheftalies"<<endl;
+            (*rating)++;
+            break; 
+            
+        case 7:
+            cout<<"Koubes"<<endl;
+            (*rating)++;
+            break;    
         
+        case 8:
+            cout<<"Ofto Kleftiko"<<endl;
+            (*rating)++;
+            break;    
         default:
             break;
         }
@@ -267,6 +297,7 @@ class Menu
     int cyprus =0;
     int greece =0;
     int most_menu =0;
+     int rating =0;
     Menu_sales* m1;
     Menu_sales* m2;
     Menu_sales* m3;
@@ -297,7 +328,7 @@ class Menu
              total = m1->pricecalculater(quantity);
                 
              m1->Most_popular_cuisine(&cyprus, &greece, &Menu);
-             m1->Most_popular_menu(& Menu);
+             m1->Most_popular_item(& Menu, &rating );
                cout << "Total price: " << total << endl;
             break;
         case 2:
@@ -306,15 +337,18 @@ class Menu
              cin >> quantity;
              total = m2->pricecalculater(quantity);
                    m2->Most_popular_cuisine(&cyprus, &greece, &Menu);
-
+                 m2->Most_popular_item(& Menu, &rating );
+                  
              cout<<total<<endl;
             break;
+
         case 3:
         cout << "How many Dolmadakia do you want: ";
              cin >> quantity;
              total = m3->pricecalculater(quantity);
                    m3->Most_popular_cuisine(&cyprus, &greece, &Menu);
-
+                 m3->Most_popular_item(& Menu, &rating ); 
+   
              break;
         
         case 4:
@@ -322,10 +356,11 @@ class Menu
              cin >> quantity;
              total = m4->pricecalculater(quantity);
                   m4->Most_popular_cuisine(&cyprus, &greece, &Menu);
+                    m4->Most_popular_item(& Menu, &rating ); 
+  
 
               cout<<total<<endl;
             break;
-
             case 5:
          cout << "How many Makaronia tou Fournou do you want: ";
              cin >> quantity;
@@ -387,9 +422,45 @@ class Menu
         }
     }
 
-    void most_popular_item()
+    void most_popular_item() // Perhabs I cahnge this code because i wiil make better and more faster
     {
+        switch(Menu) // output is not very well i should be change the output
+        {
+            case 1:
+            cout<<"Gyros";
+            cout<<rating<<endl;
+            break;
+            case 2:
+             cout<<"Lamp souvlaki"<<endl;
+             cout<<rating<<endl;
+            break;
+            case 3:
+            cout<<"Dolmadakia"<<endl;
+            cout<<rating<<endl;
+            break;
+            case 4:
+            cout<<"Grilled octopus"<<endl;
+            cout<<rating<<endl;
+            break;
+            case 5:
+            cout<<"Makaronia tou Fournou"<<endl;
+            cout<<rating<<endl;
+            break;
+            case 6:
+            cout<<"Sheftalies"<<endl;
+            cout<<rating<<endl;
+            break;
+            case 7:
+            cout<<"Koubes"<<endl;
+            cout<<rating<<endl;
+            break;
+            case 8:
+            cout<<"Ofto Kleftiko"<<endl;
+            cout<<rating<<endl;
+            break;
 
+        }
+        
     }
 
    void printstaf()
@@ -438,10 +509,6 @@ class Menu
        
    }
  
-
-    
-
-
    public:
 
    void start()
@@ -471,6 +538,10 @@ class Menu
             case 5:
             most_popular_cuisine();
               break;
+            case 6:
+            most_popular_item();
+            break;
+              
             }  
         }
         
