@@ -31,11 +31,11 @@ class Total_price : public Customer_contact
     private:
     int Menu_item;
     string Type_of_order;
-    int total_price;
+    float total_price;
 
 
     public:
-    Total_price(string cn,string cd, int cp, int m_i, string to, int tp): Customer_contact(cn,cd,cp)
+    Total_price(string cn,string cd, int cp, int m_i, string to, float tp): Customer_contact(cn,cd,cp)
     {
         Menu_item = m_i;
         Type_of_order = to;
@@ -49,7 +49,7 @@ class Total_price : public Customer_contact
         cout<<"Address: "<<customer_addres<<endl;
         cout<<"Menu Item: "<<Menu_item<<endl;
         cout<<"Type of order: "<<Type_of_order<<endl;
-        cout<<"Total price: "<<total_price<<endl;
+        cout<<"Total price: "<<total_price<<"\x9C" <<endl;
     }
 
   
@@ -97,9 +97,9 @@ class Menu_sales :public  Menu_Item
        
      }
 
-     float pricecalculater(int quantity)
+     float pricecalculater(int quantity, float *total)
      {
-        return Item_price * quantity;
+        return *total += Item_price * quantity;
      }
 
      int Most_popular_cuisine(int* cyprus, int* greece, int* Menu ) 
@@ -134,7 +134,7 @@ class Menu_sales :public  Menu_Item
             cout <<"Cuisine:" <<Cuisine<<endl;
             cout <<"Item_name:" <<Item_name<<endl;
             cout << "Availability: " << Availability << endl;
-            cout << "Item_price: " << Item_price << endl;
+            cout << "Item_price: " << Item_price << "\x9C"<< endl;
             cout << "Popularity_rating: " << Popularity_rating << endl;
             cout << "------------------------" << endl;
         }
@@ -271,7 +271,8 @@ class Menu
     string customer_name;
     string name;
     string location;
-    string Cancel;
+    string input;
+     
      
     
     int phone;
@@ -287,7 +288,7 @@ class Menu
     int takeaway_Count = 0;
     string orderTypeStr;
     int orderType;
-    bool canDeliver = false;
+    string canDeliver; 
     Menu_sales* m1;
     Menu_sales* m2;
     Menu_sales* m3;
@@ -310,7 +311,7 @@ class Menu
 
     cout << "What is your name" << endl;
     cin >> name;
-    cout<<"We can only deliver to the ths location Treforest, Glyntaff, Rhydyfelin, Upper Boat, Pontypridd"<<endl;
+    cout<<"We can only deliver to the this location Treforest, Glyntaff, Rhydyfelin, Upper Boat, Pontypridd"<<endl;
     cout << "Location" << endl;
     cin >> location;
     cout << "Phone number" << endl;
@@ -326,12 +327,12 @@ class Menu
       {
             orderTypeStr = "Take away";
          takeaway_Count++;
-         cout<<takeaway_Count<<endl;
+         
        
          for (int i = 0; i < 5; i++) {
             if (*(places + i) == location) 
             {
-                canDeliver = true;                
+                canDeliver ="No";           
               break;
               
             }
@@ -340,6 +341,11 @@ class Menu
                  cout << " We cannot deliver to the " << location << " area." << endl;
                  cout<<"We can only deliver to the ths location Treforest, Glyntaff, Rhydyfelin, Upper Boat, Pontypridd"<<endl;
                 cout << " In Person: Please come to the store to pick it up." << endl;
+                cout<<"if you dont want to order you can cancle the now Yer or No"<<endl;
+
+                 cout<<"Do you want to cancle it the order"<<endl;
+                cin>>canDeliver;
+
                 break;
             }
         }
@@ -350,7 +356,7 @@ class Menu
        {
             cout<<"We can not  delivery you have only change choose the in person "<<endl;
             cout<<"if you dont want to order you cancle the now Yer or No"<<endl;
-            cin>>Cancel;
+            cin>>canDeliver;
        }     
        
     }
@@ -359,27 +365,25 @@ class Menu
     {
             orderTypeStr = "In Person";
             cout << " Please come to the store to pick it up." << endl;
-            cout<<"if you dont want to order you cancle the now Yer or No"<<endl;
-            cin>>Cancel;
-
+            canDeliver ="No";
         
     }
 
-    while(Cancel != "No")
+   if(takeaway_Count<=1 ||canDeliver =="No" ) 
+{
+
+  
+    while(canDeliver == "No")
     {
     
         cout<<"Which menu do you take"<<endl;
         cin>> Menu;
 
-        if(!quantity ==0)
+        if(Menu ==0)
         {
-            cout<<"You can not  put this number, you can put only this numbers 1 2 3 like that "<<endl;
+            cout<<"You can not  put 0 number, you can put only this numbers 1 2 3 like that "<<endl;
             break;
         }
-
-        if(takeaway_Count<=1)
-    {
-            
         totalorders++;
         
     
@@ -388,7 +392,7 @@ class Menu
         case 1: 
            cout << "How many Gyros do you want: ";
              cin >> quantity;
-             total = m1->pricecalculater(quantity);
+              m1->pricecalculater(quantity,&total);
                 
              m1->Most_popular_cuisine(&cyprus, &greece, &Menu);
              m1->total_orders(&quantity,&totalorders);
@@ -398,7 +402,7 @@ class Menu
             
              cout << "How many Lamp souvlaki do you want: ";
              cin >> quantity;
-             total = m2->pricecalculater(quantity);
+               m2->pricecalculater(quantity,&total);
                    m2->Most_popular_cuisine(&cyprus, &greece, &Menu);
                 m2->total_orders(&quantity,&totalorders);
             break;
@@ -406,7 +410,7 @@ class Menu
         case 3:
         cout << "How many Dolmadakia do you want: ";
              cin >> quantity;
-             total = m3->pricecalculater(quantity);
+             total = m3->pricecalculater(quantity,&total);
                    m3->Most_popular_cuisine(&cyprus, &greece, &Menu);
                     m3->total_orders(&quantity,&totalorders);
 
@@ -415,7 +419,7 @@ class Menu
         case 4:
          cout << "How many Grilled octopus do you want: ";
              cin >> quantity;
-             total = m4->pricecalculater(quantity);
+             total = m4->pricecalculater(quantity,&total);
                   m4->Most_popular_cuisine(&cyprus, &greece, &Menu);
                   m4->total_orders(&quantity,&totalorders);
 
@@ -425,7 +429,7 @@ class Menu
             case 5:
          cout << "How many Makaronia tou Fournou do you want: ";
              cin >> quantity;
-             total = m5->pricecalculater(quantity);
+             total = m5->pricecalculater(quantity,&total);
                    m5->Most_popular_cuisine(&cyprus, &greece, &Menu);
                             m5->total_orders(&quantity,&totalorders);
 
@@ -434,7 +438,7 @@ class Menu
             case 6:
          cout << "How many Sheftalies do you want: ";
              cin >> quantity;
-             total = m6->pricecalculater(quantity);
+             total = m6->pricecalculater(quantity,&total);
             m6->Most_popular_cuisine(&cyprus, &greece, &Menu);
              m6->total_orders(&quantity,&totalorders);
 
@@ -443,7 +447,7 @@ class Menu
             case 7:
          cout << "How many Koubes do you want: ";
              cin >> quantity;
-             total = m7->pricecalculater(quantity);
+             total = m7->pricecalculater(quantity,&total);
                  m7->Most_popular_cuisine(&cyprus, &greece, &Menu);
                  m7->total_orders(&quantity,&totalorders);
             break; 
@@ -451,112 +455,27 @@ class Menu
             case 8:
          cout << "How many Ofto Kleftiko do you want: ";
              cin >> quantity;
-              total = m8->pricecalculater(quantity);
+              total = m8->pricecalculater(quantity,&total);
                 m8->Most_popular_cuisine(&cyprus, &greece, &Menu);
                 m8->total_orders(&quantity,&totalorders);
 
             break;              
         }
-    
-        Total_price* t1 = new Total_price(name,location,phone,Menu, orderTypeStr,total);
-        
-        
-        r.addcustomer(t1);
-        r.example();
-
-    
-       }   
-       
-    
-     else{
-            
-         cout<<"Calisti"<<endl;
-
-            switch (Menu)
+         cout<<"Do you want any order again"<<endl;
+        cin>>input;
+        if(input == "No")
         {
-
-        case 1: 
-           cout << "How many Gyros do you want: ";
-             cin >> quantity;
-             total = m1->pricecalculater(quantity);
-                
-             m1->Most_popular_cuisine(&cyprus, &greece, &Menu);
-             m1->total_orders(&quantity,&totalorders);
-            break;
-        case 2:
-            
-             cout << "How many Lamp souvlaki do you want: ";
-             cin >> quantity;
-             total = m2->pricecalculater(quantity);
-                   m2->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                m2->total_orders(&quantity,&totalorders);
-
-                  
-            break;
-
-        case 3:
-        cout << "How many Dolmadakia do you want: ";
-             cin >> quantity;
-             total = m3->pricecalculater(quantity);
-                   m3->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                    m3->total_orders(&quantity,&totalorders);
-
-             break;
-        
-        case 4:
-         cout << "How many Grilled octopus do you want: ";
-             cin >> quantity;
-             total = m4->pricecalculater(quantity);
-                  m4->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                    m4->total_orders(&quantity,&totalorders);
-            break;
-            case 5:
-         cout << "How many Makaronia tou Fournou do you want: ";
-             cin >> quantity;
-             total = m5->pricecalculater(quantity);
-                   m5->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                m5->total_orders(&quantity,&totalorders);
-
-            break; 
-
-            case 6:
-         cout << "How many Sheftalies do you want: ";
-             cin >> quantity;
-             total = m6->pricecalculater(quantity);
-                   m6->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                     m6->total_orders(&quantity,&totalorders);
-
-            break;   
-
-            case 7:
-         cout << "How many Koubes do you want: ";
-             cin >> quantity;
-             total = m7->pricecalculater(quantity);
-                   m7->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                   m7->total_orders(&quantity,&totalorders);
-                break; 
-
-            case 8:
-         cout << "How many Ofto Kleftiko do you want: ";
-             cin >> quantity;
-              total = m8->pricecalculater(quantity);
-                m8->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                 m8->total_orders(&quantity,&totalorders);
-
-            break;              
-        }
-    
-        Total_price* t1 = new Total_price(name,location,phone,Menu, orderTypeStr,total);
-        
-        
+              Total_price* t1 = new Total_price(name,location,phone,Menu, orderTypeStr,total);
         r.addcustomer(t1);
         r.example();
+            break;
         }
+       
+        
+       }   
+    }     
+}   
    
-        break;
-  }  
-}  
-
     void Total_incomer()
     {
         cout<<"Total income for the day"<<endl;
