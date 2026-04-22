@@ -29,25 +29,30 @@ class Customer_contact
 class Total_price : public Customer_contact
 {
     private:
-    string Menu_item;
+     vector<string> Menu_item;
     string Type_of_order;
     float total_price;
 
 
     public:
-    Total_price(string cn,string cd, int cp, string m_i, string to, float tp): Customer_contact(cn,cd,cp)
+    Total_price(string cn,string cd, int cp, vector<string> m_i, string to, float tp): Customer_contact(cn,cd,cp)
     {
         Menu_item = m_i;
         Type_of_order = to;
         total_price = tp;
     }
+
+    
     
     void printcustomer_contact()
     {
         cout<<"Customer Name: "<<customer_name<<endl;
         cout<<"Contact: "<<customer_phone<<endl;
         cout<<"Address: "<<customer_addres<<endl;
-        cout<<"Meal name: "<<Menu_item<<endl;
+        for(int i = 0; i < Menu_item.size(); i++)
+        {
+            cout<<"Meal name: "<<Menu_item[i]<<endl;
+        }
         cout<<"Type of order: "<<Type_of_order<<endl;
         cout<<"Total price: "<<total_price<<"\x9C" <<endl;
     }
@@ -139,7 +144,18 @@ class Menu_sales :public  Menu_Item
         
         }        
     }
+        string attempt( )
+        {
+           return  Availability;
+        }
 
+        string attempt1()
+        {
+            
+
+        }
+
+      
 
         void printmenu()    
         {
@@ -287,9 +303,8 @@ class Menu
     string name;
     string location;
     string input;
-    string Item_name;
     int Item_quantity;
-    Menu_sales* ms;
+    vector<string> Item_name;
    
    
 
@@ -317,7 +332,10 @@ class Menu
     Menu_sales* m6;
     Menu_sales* m7;
     Menu_sales* m8;
-    bool system_exist = true ;
+    bool system_exist = true;
+     string label;
+    string meal;
+
 
     string places[5] 
     {
@@ -421,20 +439,22 @@ class Menu
         
         switch (Menu)
         {
-        case 1:  // I will conctuinte on this code 
+        case 1:  
         while (true)
         {
-              
+     if(m1->attempt() !="No")
+      { 
        cout << "How many Gyros do you want: ";
            cin >> quantity;
-           
+           cout<<"You cannot order more than 10 meals"<<endl;   
         if(quantity >0 && quantity <=10)
         {
-            Item_name ="Gyros";
+        
            
             m1->getAvailability(&quantity);
               m1->pricecalculater(quantity,&total);
-               
+               m1->attempt1();
+               Item_name.push_back("Gyros");
              m1->Most_popular_cuisine(&cyprus, &greece, &Menu);
              m1->total_orders(&quantity,&totalorders);
              break;
@@ -443,18 +463,27 @@ class Menu
         {
             cout <<"You cannot enter the numbers 0 or 11."<<endl;
         }
-    
+    }
+
+    else
+    {
+        cout<<"This item is not available."<<endl;
+        cout<<"If you want to choose another meal"<<endl;
+        break;
+    }
+
       }     
            break;
             
         case 2:
         while(true)
-              {  cout << "How many Lamp souvlaki do you want: ";
+     {     cout << "How many Lamp souvlaki do you want: ";
              cin >> quantity;
              if(quantity >0 && quantity <=10)
-              {   Item_name ="Lamp souvlaki";
+              {  
              m2->getAvailability(&quantity);
-
+             Item_name.push_back("Lamp souvlaki");
+                 m2->attempt1();
                m2->pricecalculater(quantity,&total);
                  m2->Most_popular_cuisine(&cyprus, &greece, &Menu);
                 m2->total_orders(&quantity,&totalorders);
@@ -472,7 +501,7 @@ class Menu
             cout << "How many Dolmadakia do you want: ";
              cin >> quantity;
           if(quantity >0 && quantity <=10)
-           { Item_name ="Dolmadakia";
+           { Item_name.push_back("Dolmadakia");
                  m3->getAvailability(&quantity);
              total = m3->pricecalculater(quantity,&total);
                    m3->Most_popular_cuisine(&cyprus, &greece, &Menu);
@@ -492,7 +521,7 @@ class Menu
               cin >> quantity;
              if(quantity >0 && quantity <=10)
              {
-                Item_name ="Grilled octopus";
+                Item_name.push_back("Grilled octopus");
              m4->getAvailability(&quantity);
              total = m4->pricecalculater(quantity,&total);
                   m4->Most_popular_cuisine(&cyprus, &greece, &Menu);
@@ -517,7 +546,7 @@ class Menu
                     if(quantity >0 && quantity <=10)
                     {
                     
-                   Item_name ="Makaronia tou Fournou";
+                   Item_name.push_back("Makaronia tou Fournou");
                  m5->getAvailability(&quantity); 
              total = m5->pricecalculater(quantity,&total);
                    m5->Most_popular_cuisine(&cyprus, &greece, &Menu);
@@ -542,7 +571,7 @@ class Menu
                   if(quantity >0 && quantity <=10)
                   {
 
-                 Item_name ="Sheftalies";
+                   Item_name.push_back("Sheftalies");
                 m6->getAvailability(&quantity);  
                total = m6->pricecalculater(quantity,&total);
                m6->Most_popular_cuisine(&cyprus, &greece, &Menu);
@@ -564,7 +593,7 @@ class Menu
                     cin >> quantity;                                     
             if(quantity >0 && quantity <=10)
             {
-                 Item_name ="Koubes";
+                   Item_name.push_back("Koubes");
             m7->getAvailability(&quantity); 
              
              total = m7->pricecalculater(quantity,&total);
@@ -586,7 +615,7 @@ class Menu
                     cin >> quantity;
                 if(quantity >0 && quantity <=10)
                 {
-                     Item_name ="Ofto Kleftiko";
+                   Item_name.push_back("Ofto Kleftiko");
               m8->getAvailability(&quantity);
               total = m8->pricecalculater(quantity,&total);
                 m8->Most_popular_cuisine(&cyprus, &greece, &Menu);
@@ -712,7 +741,7 @@ class Menu
    void printmenu() 
    {
 
-            m1 = new Menu_sales("Greece", "Gyros",1,"Yes", 15,4,1);
+            m1 = new Menu_sales("Greece", "Gyros",15,"Yes", 15,4,1);
              m2 = new Menu_sales("Greece", "Lamp souvlaki",13,"Yes", 14,5,2);
             m3 = new Menu_sales("Greece", "Dolmadakia",14,"Yes", 16,3,3);
             m4 = new Menu_sales("Greece", "Grilled octopus",10,"Yes", 20,2,4);
@@ -744,11 +773,15 @@ void loadFromFile()
 {
     ifstream inputFile("Takey-away.txt");
 
-    string label;
+   
     inputFile >> label >> name;        
     inputFile >> label >> phone;        
     inputFile >> label >> location;
-    inputFile >> label >> Item_name;     
+   for(int i = 0; i < Menu; i++)
+    {
+        inputFile >> label >>  meal; 
+        Item_name.push_back(meal);
+    }
     inputFile >> label >> orderTypeStr; 
     inputFile >> label >> total;
 
@@ -766,7 +799,10 @@ void saveToFile()
     outputFile << "Name: "<< name<< endl;
     outputFile << "Phone: "<< phone<< endl;
     outputFile << "Location: "<< location<< endl;
-    outputFile <<"Menu name: "<<Item_name<<endl;
+     for(int i = 0; i < Item_name.size(); i++)
+    {
+        outputFile << "Meal " << Item_name[i] << endl;
+    }
     outputFile << "Order: "<< orderTypeStr<< endl;
     outputFile << "Total: "<<total<<"£"<<endl;
     outputFile <<"-----------"<<endl;
