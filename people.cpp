@@ -29,13 +29,13 @@ class Customer_contact
 class Total_price : public Customer_contact
 {
     private:
-    int Menu_item;
+    string Menu_item;
     string Type_of_order;
     float total_price;
 
 
     public:
-    Total_price(string cn,string cd, int cp, int m_i, string to, float tp): Customer_contact(cn,cd,cp)
+    Total_price(string cn,string cd, int cp, string m_i, string to, float tp): Customer_contact(cn,cd,cp)
     {
         Menu_item = m_i;
         Type_of_order = to;
@@ -47,7 +47,7 @@ class Total_price : public Customer_contact
         cout<<"Customer Name: "<<customer_name<<endl;
         cout<<"Contact: "<<customer_phone<<endl;
         cout<<"Address: "<<customer_addres<<endl;
-        cout<<"Menu Item: "<<Menu_item<<endl;
+        cout<<"Meal name: "<<Menu_item<<endl;
         cout<<"Type of order: "<<Type_of_order<<endl;
         cout<<"Total price: "<<total_price<<"\x9C" <<endl;
     }
@@ -61,12 +61,15 @@ class Menu_Item
     public:
     string Cuisine;
     string Item_name;
+    int Item_quantity =0;
     
 
-     Menu_Item(string c, string In )
+     Menu_Item(string c, string In, int IQ )
     {
         Cuisine = c;
         Item_name = In;
+        Item_quantity = IQ;
+        
        
     }
 
@@ -88,7 +91,7 @@ class Menu_sales :public  Menu_Item
     public:
 
 
-     Menu_sales(string c, string In, string av, float Ip, int Pr, int m_n) :Menu_Item(c,In)
+     Menu_sales(string c, string In, int IQ ,string av, float Ip, int Pr, int m_n) :Menu_Item(c,In,IQ)
      {
         Availability =av;
         Item_price= Ip;
@@ -99,7 +102,8 @@ class Menu_sales :public  Menu_Item
 
      float pricecalculater(int quantity, float *total)
      {
-        return *total += Item_price * quantity;
+        return *total += Item_price * quantity; // I will check that code
+
      }
 
      int Most_popular_cuisine(int* cyprus, int* greece, int* Menu ) 
@@ -125,17 +129,28 @@ class Menu_sales :public  Menu_Item
     }
 
 
+    void getAvailability(int* quantity ) 
+    {
+         Item_quantity=Item_quantity - *quantity;
+        if(Item_quantity <=0)
+        {
+           Availability = "No"; 
+          
+        
+        }        
+    }
 
-    
 
         void printmenu()    
         {
+            cout << "------------------------" << endl;
             cout <<"Menu Number:"<<Menu_Number<<endl;
             cout <<"Cuisine:" <<Cuisine<<endl;
-            cout <<"Item_name:" <<Item_name<<endl;
-            cout << "Availability: " << Availability << endl;
-            cout << "Item_price: " << Item_price << "\x9C"<< endl;
-            cout << "Popularity_rating: " << Popularity_rating << endl;
+            cout <<"Item name:" <<Item_name<<endl;
+            cout <<"Item quantity:"<<Item_quantity<<endl;
+            cout << "Availability:" << Availability << endl;
+            cout << "Item price: "<< Item_price << "\x9C"<< endl;
+            cout << "Popularity rating:" << Popularity_rating << endl;
             cout << "------------------------" << endl;
         }
     
@@ -265,14 +280,19 @@ void loyalCustomer() // I wiil check this code because I'm not sure is it workin
 
 class Menu
 {
+    
     private:
     int choice;
     result r;
-    string customer_name;
     string name;
     string location;
     string input;
-     
+    string Item_name;
+    int Item_quantity;
+    Menu_sales* ms;
+   
+   
+
      
     
     int phone;
@@ -297,6 +317,7 @@ class Menu
     Menu_sales* m6;
     Menu_sales* m7;
     Menu_sales* m8;
+    bool system_exist = true ;
 
     string places[5] 
     {
@@ -316,20 +337,24 @@ class Menu
     cin >> location;
     cout << "Phone number" << endl;
     cin >> phone;
+  
+   while(true)
+    {
     cout<<"We can order the only that location:Treforest, Glyntaff, Rhydyfelin , Upper Boat, Pontypridd"<<endl;
-    cout << "1: Takeaway" << endl;
+    cout << "1: Take away" << endl;
     cout << "2: In Person" << endl;
     cin >> orderType;
 
     if (orderType == 1) 
     {
-        if(takeaway_Count<1)
+        if(takeaway_Count<15)
       {
             orderTypeStr = "Take away";
          takeaway_Count++;
          
        
-         for (int i = 0; i < 5; i++) {
+         for (int i = 0; i < 5; i++) 
+         {
             if (*(places + i) == location) 
             {
                 canDeliver ="No";           
@@ -341,7 +366,7 @@ class Menu
                  cout << " We cannot deliver to the " << location << " area." << endl;
                  cout<<"We can only deliver to the ths location Treforest, Glyntaff, Rhydyfelin, Upper Boat, Pontypridd"<<endl;
                 cout << " In Person: Please come to the store to pick it up." << endl;
-                cout<<"if you dont want to order you can cancle the now Yer or No"<<endl;
+                cout<<"if you dont want to order you can cancle the now Yes or No"<<endl;
 
                  cout<<"Do you want to cancle it the order"<<endl;
                 cin>>canDeliver;
@@ -358,16 +383,24 @@ class Menu
             cout<<"if you dont want to order you cancle the now Yer or No"<<endl;
             cin>>canDeliver;
        }     
-       
+        break;
     }
 
-     else if (orderType == 2)
+      if (orderType == 2)
     {
             orderTypeStr = "In Person";
             cout << " Please come to the store to pick it up." << endl;
             canDeliver ="No";
+            break;
         
     }
+
+    else if(orderType == 0 || orderType >= 3)
+    {
+         cout << "You cannot put that number, you can put only these numbers 1,2." << endl;
+    }
+
+ } 
 
    if(takeaway_Count<=1 ||canDeliver =="No" ) 
 {
@@ -377,101 +410,213 @@ class Menu
     {
     
         cout<<"Which menu do you take"<<endl;
+        cout<<"Choose the menu number. If you don't remeber the menu number you check the menu "<<endl;
         cin>> Menu;
-
-        if(Menu ==0)
-        {
-            cout<<"You can not  put 0 number, you can put only this numbers 1 2 3 like that "<<endl;
-            break;
-        }
+    
+        
+          if(Menu >=1 && Menu<=8 )
+         {
+                   
         totalorders++;
         
-    
         switch (Menu)
         {
-        case 1: 
-           cout << "How many Gyros do you want: ";
-             cin >> quantity;
+        case 1:  // I will conctuinte on this code 
+        while (true)
+        {
+              
+       cout << "How many Gyros do you want: ";
+           cin >> quantity;
+           
+        if(quantity >0 && quantity <=10)
+        {
+            Item_name ="Gyros";
+           
+            m1->getAvailability(&quantity);
               m1->pricecalculater(quantity,&total);
-                
+               
              m1->Most_popular_cuisine(&cyprus, &greece, &Menu);
              m1->total_orders(&quantity,&totalorders);
-               
-            break;
-        case 2:
+             break;
+        }
+        else
+        {
+            cout <<"You cannot enter the numbers 0 or 11."<<endl;
+        }
+    
+      }     
+           break;
             
-             cout << "How many Lamp souvlaki do you want: ";
+        case 2:
+        while(true)
+              {  cout << "How many Lamp souvlaki do you want: ";
              cin >> quantity;
+             if(quantity >0 && quantity <=10)
+              {   Item_name ="Lamp souvlaki";
+             m2->getAvailability(&quantity);
+
                m2->pricecalculater(quantity,&total);
-                   m2->Most_popular_cuisine(&cyprus, &greece, &Menu);
+                 m2->Most_popular_cuisine(&cyprus, &greece, &Menu);
                 m2->total_orders(&quantity,&totalorders);
             break;
-
+            }
+             else
+          {
+            cout <<"You cannot enter the numbers 0 or 11."<<endl;
+          }
+        }
+        break;
         case 3:
-        cout << "How many Dolmadakia do you want: ";
+        while(true)
+        {
+            cout << "How many Dolmadakia do you want: ";
              cin >> quantity;
+          if(quantity >0 && quantity <=10)
+           { Item_name ="Dolmadakia";
+                 m3->getAvailability(&quantity);
              total = m3->pricecalculater(quantity,&total);
                    m3->Most_popular_cuisine(&cyprus, &greece, &Menu);
                     m3->total_orders(&quantity,&totalorders);
-
              break;
-        
+        }
+        else
+        {
+           cout <<"You cannot enter the numbers 0 or 11."<<endl;
+        }
+    }
+    break;
         case 4:
+            while (true)
+            {
          cout << "How many Grilled octopus do you want: ";
-             cin >> quantity;
+              cin >> quantity;
+             if(quantity >0 && quantity <=10)
+             {
+                Item_name ="Grilled octopus";
+             m4->getAvailability(&quantity);
              total = m4->pricecalculater(quantity,&total);
                   m4->Most_popular_cuisine(&cyprus, &greece, &Menu);
                   m4->total_orders(&quantity,&totalorders);
-
-
               
             break;
+             }
+             else
+             {
+                  cout <<"You cannot enter the numbers 0 or 11."<<endl;
+
+             }
+             
+            }
+                break;
+            
             case 5:
-         cout << "How many Makaronia tou Fournou do you want: ";
-             cin >> quantity;
+                while(true)
+                {
+                    cout << "How many Makaronia tou Fournou do you want: ";
+                     cin >> quantity;
+                    if(quantity >0 && quantity <=10)
+                    {
+                    
+                   Item_name ="Makaronia tou Fournou";
+                 m5->getAvailability(&quantity); 
              total = m5->pricecalculater(quantity,&total);
                    m5->Most_popular_cuisine(&cyprus, &greece, &Menu);
-                            m5->total_orders(&quantity,&totalorders);
+                     m5->total_orders(&quantity,&totalorders);
 
             break; 
+             }
 
+             else
+             {
+                  cout <<"You cannot enter the numbers 0 or 11."<<endl;
+             }
+             
+           }
+           break;
             case 6:
-         cout << "How many Sheftalies do you want: ";
-             cin >> quantity;
-             total = m6->pricecalculater(quantity,&total);
-            m6->Most_popular_cuisine(&cyprus, &greece, &Menu);
-             m6->total_orders(&quantity,&totalorders);
+                while(true)
+                {
+                     cout << "How many Sheftalies do you want: ";
+                   cin >> quantity;
 
-            break;   
+                  if(quantity >0 && quantity <=10)
+                  {
 
+                 Item_name ="Sheftalies";
+                m6->getAvailability(&quantity);  
+               total = m6->pricecalculater(quantity,&total);
+               m6->Most_popular_cuisine(&cyprus, &greece, &Menu);
+               m6->total_orders(&quantity,&totalorders);
+
+            break; 
+                  }  
+
+                  else
+                  {
+                    cout <<"You cannot enter the numbers 0 or 11."<<endl;  
+                  }
+            }
+            break;
             case 7:
-         cout << "How many Koubes do you want: ";
-             cin >> quantity;
+                while(true)
+                {
+                     cout << "How many Koubes do you want: ";
+                    cin >> quantity;                                     
+            if(quantity >0 && quantity <=10)
+            {
+                 Item_name ="Koubes";
+            m7->getAvailability(&quantity); 
+             
              total = m7->pricecalculater(quantity,&total);
                  m7->Most_popular_cuisine(&cyprus, &greece, &Menu);
                  m7->total_orders(&quantity,&totalorders);
             break; 
+            }
+            else
+            {
+                 cout <<"You cannot enter the numbers 0 or 11."<<endl;  
 
+            }
+        }    
+            break;   
             case 8:
-         cout << "How many Ofto Kleftiko do you want: ";
-             cin >> quantity;
+                while (true)
+                {
+                    cout << "How many Ofto Kleftiko do you want: ";
+                    cin >> quantity;
+                if(quantity >0 && quantity <=10)
+                {
+                     Item_name ="Ofto Kleftiko";
+              m8->getAvailability(&quantity);
               total = m8->pricecalculater(quantity,&total);
                 m8->Most_popular_cuisine(&cyprus, &greece, &Menu);
                 m8->total_orders(&quantity,&totalorders);
+            break;
+                } 
+                else
+                {
+                   cout <<"You cannot put that number you can put only these numbers 1 to 11"<<endl;  
 
-            break;              
+                } 
+              }
+              break;            
         }
-         cout<<"Do you want any order again"<<endl;
+         cout<<"Do you want any order again.  No"<<endl;
         cin>>input;
         if(input == "No")
         {
-              Total_price* t1 = new Total_price(name,location,phone,Menu, orderTypeStr,total);
+              Total_price* t1 = new Total_price(name,location,phone,Item_name, orderTypeStr,total);
         r.addcustomer(t1);
         r.example();
-            break;
+        cout<<"Order placed successfully"<<endl;
+            break;  
         }
        
-        
+         } 
+         else
+         {
+         cout << "You cannot put that number , you can put only this numbers 1 2 3." << endl;
+         }
        }   
     }     
 }   
@@ -498,6 +643,8 @@ class Menu
     {
         switch(Menu)
         {
+            if(Menu >=1 && Menu <=8)
+            {
             case 1:
             cout<<"Most popular item is Gyros "<<endl;
             rating++;
@@ -540,15 +687,14 @@ class Menu
             break;
 
         }
-        
+     }
     }
 
-   void printstaf()
+   void printstaf() // I will check that code
    {
       
-      cin>>customer_name;
       
-        Staff* s1 = new Staff(customer_name, "London", 123456, "Chef", "Greece and Cyprus");
+        Staff* s1 = new Staff("James", "London", 123456, "Chef", "Greece and Cyprus");
          Staff* s2 = new Staff("John", "Bristol", 987654, "Delivery Staff", "");
         Staff* s3 = new Staff("Sara", "Manchester", 456789, "Manager", "");
         Staff* s4 = new Staff("Alex", "Manchester", 456789, "Receptionist", "");
@@ -563,17 +709,17 @@ class Menu
 
    
 
-   void printmenu() // I will delet the cola
+   void printmenu() 
    {
 
-            m1 = new Menu_sales("Greece", "Gyros","yes", 15,4,1);
-             m2 = new Menu_sales("Greece", "Lamp souvlaki","yes", 14,5,2);
-            m3 = new Menu_sales("Greece", "Dolmadakia","yes", 16,3,3);
-            m4 = new Menu_sales("Greece", "Grilled octopus","yes", 20,2,4);
-            m5 = new Menu_sales("Cyprus", "Makaronia tou Fournou","yes", 13,5,5);
-            m6 = new Menu_sales("Cyprus", "Sheftalies","yes", 12,4,6);
-             m7 = new Menu_sales("Cyprus", "Koubes","yes", 14,4,7);
-            m8 = new Menu_sales("Cyprus", "Ofto Kleftiko","yes",12,5,8);
+            m1 = new Menu_sales("Greece", "Gyros",1,"Yes", 15,4,1);
+             m2 = new Menu_sales("Greece", "Lamp souvlaki",13,"Yes", 14,5,2);
+            m3 = new Menu_sales("Greece", "Dolmadakia",14,"Yes", 16,3,3);
+            m4 = new Menu_sales("Greece", "Grilled octopus",10,"Yes", 20,2,4);
+            m5 = new Menu_sales("Cyprus", "Makaronia tou Fournou",8,"Yes", 13,5,5);
+            m6 = new Menu_sales("Cyprus", "Sheftalies",14,"Yes", 12,4,6);
+             m7 = new Menu_sales("Cyprus", "Koubes",12,"Yes", 14,4,7);
+            m8 = new Menu_sales("Cyprus", "Ofto Kleftiko",15,"Yes",12,5,8);
        
  
         r.addmenu(m1);
@@ -601,7 +747,8 @@ void loadFromFile()
     string label;
     inputFile >> label >> name;        
     inputFile >> label >> phone;        
-    inputFile >> label >> location;     
+    inputFile >> label >> location;
+    inputFile >> label >> Item_name;     
     inputFile >> label >> orderTypeStr; 
     inputFile >> label >> total;
 
@@ -619,32 +766,39 @@ void saveToFile()
     outputFile << "Name: "<< name<< endl;
     outputFile << "Phone: "<< phone<< endl;
     outputFile << "Location: "<< location<< endl;
+    outputFile <<"Menu name: "<<Item_name<<endl;
     outputFile << "Order: "<< orderTypeStr<< endl;
-    outputFile << "Total: "<<total<<endl;
+    outputFile << "Total: "<<total<<"£"<<endl;
     outputFile <<"-----------"<<endl;
 
     outputFile.close();
 }
 
-
+    void Exist()
+    {
+          system_exist = false;
+    }
  
    public:
 
    void start()
    {
-        while (true)
+        while (system_exist)
         {
             cout<<"1: Worker"<<endl;
             cout<<"2: Menu"<<endl;
             cout<<"3: Which menu do you want buy"<<endl;
             cout<<"4: Total incomer"<<endl;
             cout<<"5: Most popular cuisine"<<endl;
-            cout<<"6: Most popular item"<<endl;
+            cout<<"6: Most popular meal"<<endl;
             cout<<"7: Loyal Customer"<<endl;
             cout<<"8: Total order"<<endl;
-            cout<<"9: Load from file"<<endl;
-            cout <<"10 : Save and Quit"<<endl;
+            cout<<"9: Load from Bill"<<endl;
+            cout <<"10 : Print the Bill"<<endl;
+            cout<<"11: System Exist"<<endl;
             cin >> choice;
+            if(choice >=1 && choice <=11)
+            {
             switch (choice)
             {
             case 1:
@@ -678,7 +832,17 @@ void saveToFile()
             case 10:
             saveToFile();
             break;
-            }  
+            
+            case 11:
+            Exist();
+            break;
+            }
+          }
+          
+          else
+          {
+           cout << "You cannot put that number, you can put only these numbers 1 to 12." << endl;
+          }
         }
         
               
